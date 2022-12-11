@@ -9,7 +9,7 @@ namespace ATM
         {
             CardDetails obj = new CardDetails();
             obj.welcome();
-        }
+        }   
     }
 
 }
