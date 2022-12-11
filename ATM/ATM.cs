@@ -52,7 +52,7 @@ namespace ATM
             }
         }
 
-        
+
 
         public bool searchCard(string cardNumber, string[,] cardDetails)
         {
@@ -67,7 +67,7 @@ namespace ATM
                     isCardValid = false;
                     continue;
                 }
-                else 
+                else
                 {
                     isCardValid = true;
                     break;
@@ -98,7 +98,7 @@ namespace ATM
         public bool validPIN(string pinNumber, string validPIN)
         {
             bool isPinValid = false;
-            
+
             if (pinNumber == validPIN)
             {
                 //Console.WriteLine("PIN is Valid");
@@ -123,11 +123,11 @@ namespace ATM
                     //Console.WriteLine("you selected 2");
                     withdrawCash(cardNumber);
                     break;
-                case 3: 
+                case 3:
                     //Console.WriteLine("you selected 3");
                     depositCash(cardNumber);
                     break;
-                default: 
+                default:
                     Console.WriteLine("Invalid Selection");
                     break;
             }
@@ -151,7 +151,7 @@ namespace ATM
         {
             string allText = File.ReadAllText(@"C:\Users\kavit\source\repos\ATM\ATM\Cards\" + cardNumber + ".txt");
             Console.WriteLine("The available balance to withraw is: " + allText);
-}
+        }
 
         public void withdrawCash(string cardNumber)
         {
@@ -161,7 +161,7 @@ namespace ATM
             int withdrawAmt = Convert.ToInt32(withdraw);
             string allText = File.ReadAllText(path);
             int allTextAmt = Convert.ToInt32(allText);
-        
+
             if (allTextAmt >= withdrawAmt)
             {
                 Console.WriteLine("Withdraw Successful!");
