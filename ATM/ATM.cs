@@ -36,15 +36,17 @@ namespace ATM
                 Console.WriteLine("\nPlease Enter the PIN: ");
                 pinNumber = Console.ReadLine();
                 //Console.WriteLine("PIN is: " + pinNumber);
-                if (!(obj.validPIN(obj.pin(cardNumber, cardDetails), pinNumber))) {
+                if (!(obj.validPIN(obj.pin(cardNumber, cardDetails), pinNumber)))
+                {
                     Console.WriteLine("Invalid PIN. Access Denied!");
                 }
                 else
                 {
                     Console.WriteLine("\nSelect one of the options\n");
-                    Console.Write("1. Check Balance \n2. Withraw Money \n3. Deposit Money \n4. Change PIN \n");
+                    Console.Write("1. Check Balance \n2. Withraw Money \n3. Dposit Money \n\n");
                     selection = Console.ReadLine();
                     selectionInt = Convert.ToInt32(selection);
+                    obj.customerSelection(selectionInt, cardNumber);
                 }
 
             }
@@ -52,7 +54,8 @@ namespace ATM
 
         
 
-        public bool searchCard(string cardNumber, string[,] cardDetails) {
+        public bool searchCard(string cardNumber, string[,] cardDetails)
+        {
 
             //string matchedCard;
             bool isCardValid = false;
@@ -75,7 +78,7 @@ namespace ATM
 
         public string pin(string cardNumber, string[,] cardDetails)
         {
-            string pin = "";
+            string pin="";
             for (int i = 0; i < cardDetails.GetLength(0); i++)
             {
                 if (cardDetails[i, 0] != cardNumber)
@@ -96,32 +99,33 @@ namespace ATM
         {
             bool isPinValid = false;
             
-            if (pinNumber == validPIN) {
+            if (pinNumber == validPIN)
+            {
                 //Console.WriteLine("PIN is Valid");
-                isPinValid= true;
+                isPinValid = true;
             }
             else
             {
-                isPinValid= false;
+                isPinValid = false;
             }
             return isPinValid;
         }
 
-        public void customerSelection(int selectionInt)
+        public void customerSelection(int selectionInt, string cardNumber)
         {
             switch (selectionInt)
             {
                 case 1:
-                    Console.WriteLine("you selected 1");
+                    //Console.WriteLine("you selected 1");
+                    checkBalance(cardNumber);
                     break;
                 case 2:
-                    Console.WriteLine("you selected 2");
+                    //Console.WriteLine("you selected 2");
+                    withdrawCash(cardNumber);
                     break;
                 case 3: 
-                    Console.WriteLine("you selected 3");
-                    break;
-                case 4: 
-                    Console.WriteLine("you slected 4");
+                    //Console.WriteLine("you selected 3");
+                    depositCash(cardNumber);
                     break;
                 default: 
                     Console.WriteLine("Invalid Selection");
@@ -136,12 +140,54 @@ namespace ATM
                 string path = @"C:\Users\kavit\source\repos\ATM\ATM\Cards\";
 
                 // Create the file if it does not exist.
-                if (!File.Exists(path + cardDetails[i,0] + ".txt"))
+                if (!File.Exists(path + cardDetails[i, 0] + ".txt"))
                 {
                     File.Create(path + cardDetails[i, 0] + ".txt");
                 }
             }
         }
-    }
+
+        public void checkBalance(string cardNumber)
+        {
+            string allText = File.ReadAllText(@"C:\Users\kavit\source\repos\ATM\ATM\Cards\" + cardNumber + ".txt");
+            Console.WriteLine("The available balance to withraw is: " + allText);
 }
 
+        public void withdrawCash(string cardNumber)
+        {
+            Console.WriteLine("\nHow much do you want to withdraw?");
+            string path = @"C:\Users\kavit\source\repos\ATM\ATM\Cards\" + cardNumber + ".txt";
+            string withdraw = Console.ReadLine();
+            int withdrawAmt = Convert.ToInt32(withdraw);
+            string allText = File.ReadAllText(path);
+            int allTextAmt = Convert.ToInt32(allText);
+        
+            if (allTextAmt >= withdrawAmt)
+            {
+                Console.WriteLine("Withdraw Successful!");
+                string newBalance = Convert.ToString(allTextAmt - withdrawAmt);
+                File.WriteAllText(path, newBalance);
+
+            }
+            else
+            {
+                Console.WriteLine("Insufficient Funds");
+            }
+
+        }
+        public void depositCash(string cardNumber)
+        {
+            Console.WriteLine("\nHow much do you want to deposit?");
+            string path = @"C:\Users\kavit\source\repos\ATM\ATM\Cards\" + cardNumber + ".txt";
+            string deposit = Console.ReadLine();
+            int depositAmt = Convert.ToInt32(deposit);
+            string allText = File.ReadAllText(path);
+            int allTextAmt = Convert.ToInt32(allText);
+
+            Console.WriteLine("Deposit Successful!");
+            string newBalance = Convert.ToString(allTextAmt + depositAmt);
+            File.WriteAllText(path, newBalance);
+        }
+    }
+
+}
