@@ -99,13 +99,8 @@ namespace ATM
             {
                 using (StreamWriter sw = File.CreateText(path)) { }
             }
-            else
-            {
-                using (StreamReader sr = File.OpenText(path)) { }
-                return true;
             }
             
-        }*/
     }
 }
 
